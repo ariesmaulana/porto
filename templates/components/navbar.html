@@ -1,0 +1,47 @@
+<!-- Navigation -->
+<nav class="border-b-3 border-warm-text bg-warm-bg sticky top-0 z-50" x-data="{ open: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20 items-center">
+            <div class="flex-shrink-0 flex items-center">
+                <a href="{% url 'home' %}"
+                    class="font-mono text-2xl font-bold tracking-tighter border-2 border-warm-text p-2 shadow-brutal-sm hover:shadow-brutal-hover hover:translate-x-[1px] hover:translate-y-[1px] transition-all bg-warm-pop">
+                    ARSMP.COM
+                </a>
+            </div>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="{% url 'home' %}"
+                    class="font-bold text-lg hover:underline decoration-4 decoration-warm-accent underline-offset-4">HOME</a>
+                <a href="{% url 'projects' %}"
+                    class="font-bold text-lg hover:underline decoration-4 decoration-warm-accent underline-offset-4">PROJECTS</a>
+                <a href="#contact"
+                    class="font-bold text-lg hover:underline decoration-4 decoration-warm-accent underline-offset-4">CONTACT</a>
+            </div>
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex items-center">
+                <button @click="open = !open"
+                    class="text-warm-text hover:text-warm-accent focus:outline-none border-2 border-warm-text p-1 shadow-brutal-sm active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all">
+                    <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="3"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div x-show="open" x-transition:enter="transition ease-out duration-100"
+        x-transition:enter-start="transform opacity-0 scale-95"
+        x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75"
+        x-transition:leave-start="transform opacity-100 scale-100"
+        x-transition:leave-end="transform opacity-0 scale-95"
+        class="md:hidden border-t-3 border-warm-text bg-warm-surface">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="{% url 'home' %}"
+                class="block px-3 py-4 text-xl font-bold border-b-2 border-warm-text hover:bg-warm-accent hover:text-white transition-colors">HOME</a>
+            <a href="{% url 'projects' %}"
+                class="block px-3 py-4 text-xl font-bold border-b-2 border-warm-text hover:bg-warm-accent hover:text-white transition-colors">PROJECTS</a>
+            <a href="#contact"
+                class="block px-3 py-4 text-xl font-bold hover:bg-warm-accent hover:text-white transition-colors">CONTACT</a>
+        </div>
+    </div>
+</nav>

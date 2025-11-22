@@ -1,0 +1,154 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Portfolio | Home{% endblock %}
+
+{% block extra_style %}
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marquee-content {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+        <div class="md:col-span-7 space-y-8">
+            <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-none">
+                BACKEND<br>
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-warm-accent to-warm-pop stroke-warm-text"
+                    style="-webkit-text-stroke: 3px #291C14;">ENGINEER</span>
+            </h1>
+            <p class="text-xl md:text-2xl font-mono border-l-4 border-warm-accent pl-6 py-2 bg-warm-surface">
+                Not only CRUD, but also building clean, scalable backend systems that actually hold up.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                <a href="{% url 'projects' %}"
+                    class="text-center px-8 py-4 bg-warm-text text-warm-bg font-bold text-xl border-3 border-warm-text shadow-brutal hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                    VIEW WORK
+                </a>
+                <a href="#contact"
+                    class="text-center px-8 py-4 bg-transparent text-warm-text font-bold text-xl border-3 border-warm-text shadow-brutal hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px] transition-all hover:bg-warm-pop">
+                    GET IN TOUCH
+                </a>
+            </div>
+        </div>
+
+        <!-- Abstract Visual -->
+        <div class="md:col-span-5 relative">
+            <div
+                class="aspect-square border-3 border-warm-text bg-warm-surface shadow-brutal relative overflow-hidden group">
+                <div class="absolute inset-0 grid grid-cols-2 grid-rows-2">
+                    <div
+                        class="border-r-3 border-b-3 border-warm-text bg-warm-pop flex items-center justify-center">
+                        <span
+                            class="text-6xl font-black opacity-20 group-hover:opacity-100 transition-opacity">API</span>
+                    </div>
+                    <div class="border-b-3 border-warm-text bg-warm-bg flex items-center justify-center">
+                        <span
+                            class="text-6xl font-black opacity-20 group-hover:opacity-100 transition-opacity">DB</span>
+                    </div>
+                    <div class="border-r-3 border-warm-text bg-warm-bg flex items-center justify-center">
+                        <span
+                            class="text-6xl font-black opacity-20 group-hover:opacity-100 transition-opacity">SYS</span>
+                    </div>
+                    <div class="bg-warm-accent flex items-center justify-center">
+                        <span
+                            class="text-6xl font-black opacity-20 group-hover:opacity-100 transition-opacity text-white">OPS</span>
+                    </div>
+                </div>
+                <div class="absolute inset-0 border-3 border-warm-text m-4 pointer-events-none"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Marquee Section -->
+<div class="border-y-3 border-warm-text bg-warm-pop py-4 overflow-hidden">
+    <div class="marquee-container">
+        <div class="marquee-content font-mono text-2xl font-bold">
+            {% for stack in tech_stack %}{{ stack|upper }} • {% endfor %}
+            {% for stack in tech_stack %}{{ stack|upper }} • {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Featured Section -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="flex justify-between items-end mb-12 border-b-3 border-warm-text pb-4">
+        <h2 class="text-4xl md:text-5xl font-black uppercase">Selected Works</h2>
+        <a href="{% url 'projects' %}"
+            class="hidden md:block font-mono font-bold hover:bg-warm-accent hover:text-white px-2 transition-colors">->
+            VIEW ALL</a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {% if featured_projects %}
+            {% for project in featured_projects %}
+            <a href="{% url 'project_detail' project.id %}" class="block group relative">
+                <article class="h-full">
+                    <div
+                        class="absolute inset-0 bg-warm-text translate-x-3 translate-y-3 border-3 border-warm-text">
+                    </div>
+                    <div
+                        class="relative border-3 border-warm-text bg-warm-bg p-6 group-hover:-translate-x-1 group-hover:-translate-y-1 transition-transform duration-200 h-full flex flex-col">
+                        <div
+                            class="aspect-video bg-warm-surface border-3 border-warm-text mb-6 overflow-hidden">
+                            {% if project.image %}
+                            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-full object-contain">
+                            {% else %}
+                            <div
+                                class="flex items-center justify-center w-full h-full bg-warm-accent/10 group-hover:bg-warm-accent/20 transition-colors">
+                                <span class="font-mono text-4xl font-bold opacity-50">PROJECT_0{{ forloop.counter }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3
+                                class="text-2xl font-black uppercase group-hover:text-warm-accent transition-colors">
+                                {{ project.title }}</h3>
+                            <span
+                                class="font-mono text-xs border-2 border-warm-text px-2 py-1 rounded-full">{{ project.year }}</span>
+                        </div>
+                        <p class="font-mono text-sm mb-6 flex-grow">{{ project.short_summary }}</p>
+                        <div class="flex gap-2 flex-wrap">
+                            {% for tag in project.stack.split %}
+                            <span
+                                class="text-xs font-bold bg-warm-pop px-2 py-1 border-2 border-warm-text">{{ tag|upper }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </article>
+            </a>
+            {% endfor %}
+        {% else %}
+            <div class="col-span-2 text-center py-20 border-3 border-dashed border-warm-text bg-warm-surface/50">
+                <p class="font-mono text-xl font-bold mb-4">NO PROJECTS YET</p>
+                <p class="font-mono text-sm">Run: <code class="bg-warm-text text-warm-bg px-2 py-1">uv run python manage.py seed_data</code></p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mt-8 md:hidden">
+        <a href="{% url 'projects' %}"
+            class="block text-center font-mono font-bold border-3 border-warm-text p-4 hover:bg-warm-accent hover:text-white transition-colors shadow-brutal-sm">->
+            VIEW ALL PROJECTS</a>
+    </div>
+</div>
+{% endblock %}

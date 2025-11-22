@@ -1,0 +1,47 @@
+[project]
+name = "portofolio"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=5.2.8",
+    "pytest-django>=4.11.1",
+    "pytest>=9.0.1",
+    "ruff>=0.14.5",
+    "django-stubs>=5.2.7",
+    "pillow>=12.0.0",
+    "basedpyright>=1.34.0",
+]
+
+
+[tool.basedpyright]
+pythonVersion = "3.13"
+pythonPlatform = "Darwin"
+typeCheckingMode = "basic"
+venvPath = "."
+include = ["core", "project"]
+exclude = [
+    ".venv",
+    "venv",
+    "node_modules",
+    ".git",
+    "__pycache__",
+    ".pytest_cache",
+    ".ruff_cache",
+    "migrations"
+]
+reportMissingImports = true
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportUnknownArgumentType = false
+reportUntypedClassDecorator = false
+reportUntypedFunctionDecorator = false
+reportUntypedBaseClass = false
+reportIncompatibleVariableOverride = true
+reportAttributeAccessIssue = false
+
+[tool.django-stubs]
+django_settings_module = "core.settings"
+strict_settings = false

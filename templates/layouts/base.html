@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portfolio{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'warm-bg': '#F2EBE3',
+                        'warm-surface': '#E6DCCF',
+                        'warm-text': '#291C14',
+                        'warm-accent': '#CC4400',
+                        'warm-pop': '#E8B931',
+                    },
+                    fontFamily: {
+                        'mono': ['"Courier New"', 'Courier', 'monospace'],
+                        'sans': ['"Helvetica Neue"', 'Arial', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'brutal': '6px 6px 0px 0px #291C14',
+                        'brutal-sm': '3px 3px 0px 0px #291C14',
+                        'brutal-hover': '2px 2px 0px 0px #291C14',
+                    },
+                    borderWidth: {
+                        '3': '3px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #F2EBE3;
+            border-left: 3px solid #291C14;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #CC4400;
+            border: 3px solid #291C14;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #291C14;
+        }
+
+        [x-cloak] { display: none !important; }
+        
+        {% block extra_style %}{% endblock %}
+    </style>
+</head>
+
+<body class="bg-warm-bg text-warm-text font-sans selection:bg-warm-accent selection:text-white min-h-screen flex flex-col">
+
+    {% include 'components/navbar.html' %}
+
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'components/footer.html' %}
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Portfolio | {{ project.title }}{% endblock %}
+
+{% block content %}
+<!-- Project Hero -->
+<div class="border-b-3 border-warm-text bg-warm-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <div
+            class="inline-block border-2 border-warm-text px-3 py-1 font-mono font-bold text-xs bg-warm-pop mb-6 shadow-brutal-sm">
+            {{ project.category|upper }}
+        </div>
+        <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-none uppercase">
+            {{ project.title }}
+        </h1>
+        <p class="text-xl md:text-2xl font-mono max-w-3xl leading-relaxed border-l-4 border-warm-accent pl-6">
+            {{ project.short_summary }}
+        </p>
+    </div>
+</div>
+
+<!-- Stats / Info Grid -->
+<div class="border-b-3 border-warm-text bg-warm-bg">
+    <div
+        class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 divide-y-3 md:divide-y-0 md:divide-x-3 divide-warm-text">
+        <div class="p-6 md:p-8">
+            <span class="block font-mono text-xs font-bold text-warm-text/60 mb-1">ROLE</span>
+            <span class="block font-bold text-lg">{{ project.role }}</span>
+        </div>
+        <div class="p-6 md:p-8">
+            <span class="block font-mono text-xs font-bold text-warm-text/60 mb-1">YEAR</span>
+            <span class="block font-bold text-lg">{{ project.year }}</span>
+        </div>
+        <div class="p-6 md:p-8">
+            <span class="block font-mono text-xs font-bold text-warm-text/60 mb-1">STACK</span>
+            <div class="flex flex-wrap gap-2 mt-1">
+                {% for tag in project.stack.split %}
+                <span class="text-xs font-bold bg-warm-pop px-1 border border-warm-text">{{ tag|upper }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        <div
+            class="p-6 md:p-8 flex items-center justify-center bg-warm-accent text-white hover:bg-warm-text transition-colors cursor-pointer group">
+            {% if project.repository %}
+            <a href="{{ project.repository }}" target="_blank" class="font-mono font-bold flex items-center gap-2">
+                VIEW REPO
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="3"
+                        d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+            </a>
+            {% else %}
+            <span class="font-mono font-bold">PRIVATE</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+
+        <!-- Sidebar / Context -->
+        <div class="md:col-span-4 space-y-8">
+            <div class="border-3 border-warm-text p-6 bg-warm-surface shadow-brutal">
+                <h3 class="font-black text-xl mb-4 uppercase">The Challenge</h3>
+                <p class="font-mono text-sm leading-relaxed">
+                    {{ project.challenge }}
+                </p>
+            </div>
+
+            <div class="border-3 border-warm-text p-6 bg-warm-bg shadow-brutal">
+                <h3 class="font-black text-xl mb-4 uppercase">Key Features</h3>
+                <div class="font-mono text-sm space-y-2">
+                    {{ project.key_features|linebreaks }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Text -->
+        <div class="md:col-span-8 space-y-12">
+            <div
+                class="aspect-video border-3 border-warm-text bg-warm-surface shadow-brutal overflow-hidden">
+                {% if project.image %}
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-full object-contain">
+                {% else %}
+                <div class="flex items-center justify-center w-full h-full">
+                    <div class="absolute inset-0 grid grid-cols-8 grid-rows-8 opacity-10" x-data>
+                        <template x-for="i in 64">
+                            <div class="border-r border-b border-warm-text"></div>
+                        </template>
+                    </div>
+                    <span class="font-mono text-4xl font-bold opacity-30">PROJECT_PREVIEW</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="prose prose-lg font-mono text-warm-text max-w-none">
+                <h2 class="font-black text-3xl uppercase mb-6">Project Details</h2>
+                {{ project.description|linebreaks }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Back to Projects -->
+<a href="{% url 'projects' %}"
+    class="block border-t-3 border-warm-text bg-warm-pop hover:bg-warm-accent hover:text-white transition-colors group">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex justify-between items-center">
+        <div>
+            <span class="font-mono text-sm font-bold opacity-60 mb-2 block">BACK TO</span>
+            <h2 class="text-4xl md:text-6xl font-black uppercase">ALL PROJECTS</h2>
+        </div>
+        <svg class="w-12 h-12 md:w-20 md:h-20 transform group-hover:-translate-x-4 transition-transform"
+            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="3" d="M19 12H5M12 5l-7 7 7 7">
+            </path>
+        </svg>
+    </div>
+</a>
+{% endblock %}

@@ -1,0 +1,69 @@
+name: Build & Push to GHCR
+
+on:
+  push:
+    tags:
+      - "release-*"
+      - "staging-*"
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: portfolio
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set environment variables
+        id: vars
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+
+          if [[ "$TAG" == release-* ]]; then
+            ENV="prod"
+            VERSION="${TAG#release-}"
+          elif [[ "$TAG" == staging-* ]]; then
+            ENV="staging"
+            VERSION="${TAG#staging-}"
+          else
+            echo "Invalid tag format"
+            exit 1
+          fi
+
+          echo "env=$ENV" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=${{ steps.vars.outputs.version }}
+            type=raw,value=${{ steps.vars.outputs.env }}-${{ steps.vars.outputs.version }}
+            type=raw,value=latest,enable=${{ steps.vars.outputs.env == 'prod' }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.conf import settings
 from django.views.static import serve
 from project import views
@@ -10,4 +10,5 @@ urlpatterns = [
     path("projects/", views.project_list, name="projects"),
     path("projects/<int:pk>/", views.project_detail, name="project_detail"),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    path("", include("django_prometheus.urls")),
 ]

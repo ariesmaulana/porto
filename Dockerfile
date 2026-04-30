@@ -66,4 +66,4 @@ USER appuser
 EXPOSE 8000
 
 # Run with Granian ASGI server
-CMD ["granian", "--host", "0.0.0.0", "--port", "8000", "core.asgi:application"]
+CMD ["granian", "--host", "0.0.0.0", "--port", "8000", "--interface", "asgi", "core.asgi:application"]
